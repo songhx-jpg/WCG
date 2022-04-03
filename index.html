@@ -29,14 +29,14 @@
         </div>
     </div>
     <script>
-        var cardcost = [0,1,1,2,8,4,6,3,5,2,3];//卡牌消费
+        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1];//卡牌消费
         var asum = 0;
         var bsum = 0;
         var diamonds = 1,amt = 1; //diamonds最大钻石数，amt目前钻石数
-        var pa = [0,1,1,4,8,3,4,3,1,2,5]; //卡牌提供的a
-        var pb = [0,1,1,1,0,2,2,1,4,1,2]; //卡牌提供的b
-        var stat = 0,cards = 10,pcard = 4;//stat是信号，cards卡牌总数
-        var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！"];
+        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1]; //卡牌提供的a
+        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1]; //卡牌提供的b
+        var stat = 0,cards = 12,pcard = 4;//stat是信号，cards卡牌总数
+        var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！","博学者爱因仓坦","wjk的冰雪溶液"];
         var pcd = [0,0,0,0,0,0,0,0]; //player card
         var had = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
         function insert (i, n) { //在玩家手牌第i个的位置插入第n张卡牌
@@ -96,6 +96,26 @@
                 bsum += pb[pcd[num]];
                 document.getElementById('a').innerHTML = asum;
                 document.getElementById('b').innerHTML = bsum;
+                if(pcd[num] == 5){
+                    var tmp = asum;
+                    asum = bsum;
+                    bsum = tmp;
+                    document.getElementById('a').innerHTML = asum;
+                    document.getElementById('b').innerHTML = bsum;
+                }
+                if(pcd[num] == 4){
+                    if(bsum < asum) {
+                        asum -= 5;
+                        document.getElementById('a').innerHTML = asum;
+                        document.getElementById('b').innerHTML = bsum;
+                    }
+                }
+                if(pcd[num] == 11 && pcard < 6){
+                    pcard+=1;
+                    insert(pcard, 2);
+                    pcd[pcard] = 2;
+                }
+                if(pcd[num] == 12 && pcard < 6) getcard();
                 pop(num);
             } else {
                 alert("not enough diamond!");
