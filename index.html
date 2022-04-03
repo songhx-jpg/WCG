@@ -29,16 +29,16 @@
         </div>
     </div>
     <script>
-        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1];//卡牌消费
+        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2];//卡牌消费
         var asum = 0;
         var bsum = 0;
         var diamonds = 1,amt = 1; //diamonds最大钻石数，amt目前钻石数
-        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1]; //卡牌提供的a
-        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1]; //卡牌提供的b
-        var stat = 0,cards = 12,pcard = 4;//stat是信号，cards卡牌总数
+        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4]; //卡牌提供的a
+        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4]; //卡牌提供的b
+        var stat = 0,cards = 14,pcard = 4;//stat是信号，cards卡牌总数
         var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！","博学者爱因仓坦","wjk的冰雪溶液"];
         var pcd = [0,0,0,0,0,0,0,0]; //player card
-        var had = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
+        var had = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
         function insert (i, n) { //在玩家手牌第i个的位置插入第n张卡牌
             if(i == 1) document.getElementById('c1').src = "img/" + ("" + n) + ".png";
             if(i == 2) document.getElementById('c2').src = "img/" + ("" + n) + ".png";
@@ -47,9 +47,32 @@
             if(i == 5) document.getElementById('c5').src = "img/" + ("" + n) + ".png";
             if(i == 6) document.getElementById('c6').src = "img/" + ("" + n) + ".png";
         }
+        function bigger (h,w) { //大屏显示由小变大特效
+            if(h == 603) return;
+            document.getElementById('big').height = h;
+            document.getElementById('big').width = w;
+            setTimeout(function () {
+                bigger(h + 6, w + 4);
+            }, 2);
+        }
+        function show (x) {//大屏幕显示函数
+            var tmp;
+            if(x == 0) tmp = "img/0.png";
+            if(x == 1) tmp = document.getElementById('c1').src;
+            if(x == 2) tmp = document.getElementById('c2').src;
+            if(x == 3) tmp = document.getElementById('c3').src;
+            if(x == 4) tmp = document.getElementById('c4').src;
+            if(x == 5) tmp = document.getElementById('c5').src;
+            if(x == 6) tmp = document.getElementById('c6').src;
+            document.getElementById('big').src = tmp;
+            bigger(3, 2);
+        }
         function empty() { //判断牌库是否空了
             for (var i = 1; i <= cards; i++) if(had[i] < 2) return false;
             return true;
+        }
+        function randcard() { //返回随机一张玩家手牌的下标
+            return Math.floor(Math.random() * pcard) + 1;
         }
         function getcard() { //摸一张牌
             if(pcard == 6) {
@@ -86,44 +109,60 @@
             document.getElementById('sp').style = "color: blue;";//改变手牌style为可看到，并且位置一定
             document.getElementById('d').innerHTML = diamonds;
         }
-        function usecard (num) { //使用第num张手牌
-            if(num > pcard) return;
-            if(amt >= cardcost[pcd[num]]) {
-                alert("您成功使用了" + names[pcd[num]]);
-                amt -= cardcost[pcd[num]];
-                document.getElementById('d').innerHTML = amt;
-                asum += pa[pcd[num]];
-                bsum += pb[pcd[num]];
+        function acticard(num) {
+            asum += pa[pcd[num]];
+            bsum += pb[pcd[num]];
+            document.getElementById('a').innerHTML = asum;
+            document.getElementById('b').innerHTML = bsum;
+            if(pcd[num] == 5){ //如果是仓王，则交换a，b
+                var tmp = asum;
+                asum = bsum;
+                bsum = tmp;
                 document.getElementById('a').innerHTML = asum;
                 document.getElementById('b').innerHTML = bsum;
-                if(pcd[num] == 5){
-                    var tmp = asum;
-                    asum = bsum;
-                    bsum = tmp;
+            }
+            if(pcd[num] == 4){ //GDY有BUG
+                if(bsum < asum) {
+                    asum -= 5;
                     document.getElementById('a').innerHTML = asum;
                     document.getElementById('b').innerHTML = bsum;
                 }
-                if(pcd[num] == 4){
-                    if(bsum < asum) {
-                        asum -= 5;
-                        document.getElementById('a').innerHTML = asum;
-                        document.getElementById('b').innerHTML = bsum;
-                    }
-                }
-                if(pcd[num] == 7) {
-                    var x = Math.max(asum, bsum);
-                    asum = x;
-                    bsum = x;
-                    document.getElementById('a').innerHTML = asum;
-                    document.getElementById('b').innerHTML = bsum;
-                }
-                if(pcd[num] == 11 && pcard < 6){
-                    pcard+=1;
-                    insert(pcard, 2);
-                    pcd[pcard] = 2;
-                }
-                if(pcd[num] == 12 && pcard < 6) getcard();
+            }
+            if(pcd[num] == 7) { //如果是平行线，那么都取大者
+                var x = Math.max(asum, bsum);
+                asum = x;
+                bsum = x;
+                document.getElementById('a').innerHTML = asum;
+                document.getElementById('b').innerHTML = bsum;
+            }
+            if(pcd[num] == 11 && pcard < 6){ //如果有空地，且是博学者，那么将没有吃饱的刘仓置入手牌
+                pcard+=1;
+                insert(pcard, 2);
+                pcd[pcard] = 2;
+            }
+            if(pcd[num] == 12) {
                 pop(num);
+                getcard();
+                return;
+            }
+            if(pcd[num] == 13 && pcard > 3) {
+                pop(num);
+                acticard(randcard());
+                return;
+            }
+            if(pcd[num] == 14){
+                pop(num);
+                pop(randcard());
+                return;
+            }
+            pop(num);
+        }
+        function usecard (num) { //使用第num张手牌
+            if(num > pcard) return; //如果该位置无牌直接跳出
+            if(amt >= cardcost[pcd[num]]) {
+                amt -= cardcost[pcd[num]]; //减去钻石
+                document.getElementById('d').innerHTML = amt; //更新
+                acticard(num);
             } else {
                 alert("not enough diamond!");
             }
@@ -155,26 +194,6 @@
         }
         document.getElementById('c6').onclick = function () {
             usecard(6);
-        }
-        function bigger (h,w) { //大屏显示由小变大特效
-            if(h == 603) return;
-            document.getElementById('big').height = h;
-            document.getElementById('big').width = w;
-            setTimeout(function () {
-                bigger(h + 6, w + 4);
-            }, 2);
-        }
-        function show (x) {//大屏幕显示函数
-            var tmp;
-            if(x == 0) tmp = "img/0.png";
-            if(x == 1) tmp = document.getElementById('c1').src;
-            if(x == 2) tmp = document.getElementById('c2').src;
-            if(x == 3) tmp = document.getElementById('c3').src;
-            if(x == 4) tmp = document.getElementById('c4').src;
-            if(x == 5) tmp = document.getElementById('c5').src;
-            if(x == 6) tmp = document.getElementById('c6').src;
-            document.getElementById('big').src = tmp;
-            bigger(3, 2);
         }
         function updown (a,uod) {//logo漂浮递归函数
             document.getElementById('pic').style = "position: absolute; left: 600px; z-index: 1; top: " + ("" + a) + "px;";
