@@ -10,7 +10,7 @@
         <p style="font-size: 48px">Winter Card-Game</p>
         <button id="start">开始对战</button>
     </div>
-    <img src="img/bruf.png" width="500" height="750" style="position: absolute; left: 50px; top: 250px; text-align: center;" id="pic">
+    <img src="img/bruf.png" width="500" height="750" style="top: 250px; text-align: center;" id="pic">
     <img src="img/shanz.png" style="display: none; z-index: 3; position: absolute; left: -250px; top: -76px; transform: rotate(-30deg);" height="2000" width="2000" id="sz">
     <img src="img/0.png" id="big" height="600" width="360" style="position: absolute; left: 5px;">
     <div style="display: none;" id="sp">
@@ -109,6 +109,13 @@
                         document.getElementById('a').innerHTML = asum;
                         document.getElementById('b').innerHTML = bsum;
                     }
+                }
+                if(pcd[num] == 7) {
+                    var x = Math.max(asum, bsum);
+                    asum = x;
+                    bsum = x;
+                    document.getElementById('a').innerHTML = asum;
+                    document.getElementById('b').innerHTML = bsum;
                 }
                 if(pcd[num] == 11 && pcard < 6){
                     pcard+=1;
