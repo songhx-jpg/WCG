@@ -29,16 +29,18 @@
         </div>
     </div>
     <script>
-        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2];//卡牌消费
+        var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7];//卡牌消费
         var asum = 0;
         var bsum = 0;
         var diamonds = 1,amt = 1; //diamonds最大钻石数，amt目前钻石数
-        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4]; //卡牌提供的a
-        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4]; //卡牌提供的b
-        var stat = 0,cards = 14,pcard = 4;//stat是信号，cards卡牌总数
+        var pa = [0,1,1,4,8,3,4,3,1,2,5,3,1,1,4,1,12]; //卡牌提供的a
+        var pb = [0,1,1,1,0,2,2,1,4,1,2,2,1,1,4,1,21]; //卡牌提供的b
+        var stat = 0,cards = 16,pcard = 4;//stat是信号，cards卡牌总数
         var names = ["","蜘蛛纸牌列兵","没有吃饱的刘仓","Yuzuru han-nyu","GDY is coming！！！","仓王","呼叫恶委","平行线不香蕉","装X master","文明观猴","深进，就是力量！","博学者爱因仓坦","wjk的冰雪溶液"];
         var pcd = [0,0,0,0,0,0,0,0]; //player card
-        var had = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
+        var had = [2,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//记录重复
+        had[16] = 2;
+        had[15] = 1;
         function insert (i, n) { //在玩家手牌第i个的位置插入第n张卡牌
             if(i == 1) document.getElementById('c1').src = "img/" + ("" + n) + ".png";
             if(i == 2) document.getElementById('c2').src = "img/" + ("" + n) + ".png";
@@ -46,6 +48,10 @@
             if(i == 4) document.getElementById('c4').src = "img/" + ("" + n) + ".png";
             if(i == 5) document.getElementById('c5').src = "img/" + ("" + n) + ".png";
             if(i == 6) document.getElementById('c6').src = "img/" + ("" + n) + ".png";
+        }
+        function washin(x,num) { //将x张第num个牌洗入你的牌库
+            had[num] -= x;
+            return;
         }
         function bigger (h,w) { //大屏显示由小变大特效
             if(h == 603) return;
@@ -92,6 +98,7 @@
             return;
         }
         function pop (pos) { //将第pos张卡牌从玩家手中移除
+            if(pcard == 0 || pos > pcard) return;
             for (var i = pos; i < pcard; i++) {
                 insert(i,pcd[i + 1]);
                 pcd[i] = pcd[i + 1];
@@ -114,6 +121,9 @@
             bsum += pb[pcd[num]];
             document.getElementById('a').innerHTML = asum;
             document.getElementById('b').innerHTML = bsum;
+            if(pcd[num] == 2){
+                washin(1, 2);
+            }
             if(pcd[num] == 5){ //如果是仓王，则交换a，b
                 var tmp = asum;
                 asum = bsum;
@@ -154,6 +164,20 @@
                 pop(num);
                 pop(randcard());
                 return;
+            }
+            if(pcd[num] == 15){
+                pop(num);
+                washin(1, 16);
+                getcard();
+                pop(randcard());
+                return;
+            }
+            if(pcd[num] == 16){
+                var x = Math.min(asum, bsum);
+                asum = x;
+                bsum = x;
+                document.getElementById('a').innerHTML = asum;
+                document.getElementById('b').innerHTML = bsum;
             }
             pop(num);
         }
