@@ -11,3 +11,15 @@ img{
     font-weight: 4px;
     font-height: 6px;
 }
+@keyframes movecb{from{top:270px}to{top:300px}}
+.sha {
+    display: inline-block;
+    position: absolute;
+    top: 270px;
+    right: 10%;
+    animation: movecb 1s infinite;
+    -webkit-animation: movecb 1s infinite;
+    animation-direction: alternate;
+    -webkit-animation-direction: alternate;
+}
+
