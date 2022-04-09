@@ -6,10 +6,10 @@
     <link type="text/css" rel="stylesheet" href="style/style.css"/>
     
 </head>
-<body style="background-color: aqua;" id="bg">
-    <div style="text-align: center;" id="tit">
+<body style="background-color: red;" id="bg">
+    <div style="text-align: center; color: maroon;" id="tit">
         <p style="font-size: 48px">Winter Card-Game Version Alpha</p>
-        <button id="start">开始对战</button>
+        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
     </div>
     <img src="img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
     <img src="img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
@@ -25,14 +25,17 @@
             <img src="img/0.png" id="e6" height="280" width="180">
         </div>
         <div style="position: fixed; bottom: 15px;">
-            <img src="img/0.png" id="c1" height="280" width="168" onmouseover="show(1)" onmouseout="show(0)">&nbsp;
-            <img src="img/0.png" id="c2" height="280" width="168" onmouseover="show(2)" onmouseout="show(0)">&nbsp;
-            <img src="img/0.png" id="c3" height="280" width="168" onmouseover="show(3)" onmouseout="show(0)">&nbsp;
-            <img src="img/0.png" id="c4" height="280" width="168" onmouseover="show(4)" onmouseout="show(0)">&nbsp;
-            <img src="img/0.png" id="c5" height="280" width="168" onmouseover="show(5)" onmouseout="show(0)">&nbsp;
-            <img src="img/0.png" id="c6" height="280" width="168" onmouseover="show(6)" onmouseout="show(0)"><br>
-            <span style="font-size: 48px;">Diamond: <span id="d"></span></span>
-            <button id="skip">skip</button>
+            <img src="img/0.png" id="c1" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(1)" onmouseout="show(0)">&nbsp;
+            <img src="img/0.png" id="c2" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(2)" onmouseout="show(0)">&nbsp;
+            <img src="img/0.png" id="c3" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(3)" onmouseout="show(0)">&nbsp;
+            <img src="img/0.png" id="c4" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(4)" onmouseout="show(0)">&nbsp;
+            <img src="img/0.png" id="c5" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(5)" onmouseout="show(0)">&nbsp;
+            <img src="img/0.png" id="c6" height="280" width="168" style="transition-property: all; transition-timing-function: ease; transition-duration: 0.5s;" onmouseover="show(6)" onmouseout="show(0)"><br><br>
+            <img src="img/diamond.png" width="70" height="70">
+            <div style="position: absolute; left: 68px; bottom: 9px;">
+                <span style="font-size: 48px;">:<span id="d"></span></span>
+                <button id="skip">skip</button>
+            </div>
         </div>
         <div style="position: absolute; right: 10px; bottom: 10px;">
             <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span style="font-size: 48px;">你的血量：<span id="bl">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl">10</span></span>
@@ -41,6 +44,8 @@
     </div>
     <button id="adra" style="display: none;">打我！</button>
     <script>
+        var colors = ["aqua","red","green","black"];
+        document.getElementById('bg').style = "background-color: " + colors[Math.floor(Math.random() * 5)] + ";";
         var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3];//卡牌消费
         var asum = 0,easum = 0;
         var bsum = 0,ebsum = 0;
@@ -64,6 +69,9 @@
         document.getElementById('adra').onclick = function () {
             clicks+=1;
         }
+        function inform() {
+            window.location.href = "inform.html";
+        }
         function eins (i, n) {
             var cardback = "card-back";
             if(n == 0) cardback = "0";
@@ -75,6 +83,32 @@
             if(i == 6) document.getElementById('e6').src = "img/" + cardback + ".png";
         }
         function insert (i, n) { //在玩家手牌第i个的位置插入第n张卡牌
+            if(i == 1) document.getElementById('c1').src = "img/" + ("" + n) + ".png";
+            if(i == 2) document.getElementById('c2').src = "img/" + ("" + n) + ".png";
+            if(i == 3) document.getElementById('c3').src = "img/" + ("" + n) + ".png";
+            if(i == 4) document.getElementById('c4').src = "img/" + ("" + n) + ".png";
+            if(i == 5) document.getElementById('c5').src = "img/" + ("" + n) + ".png";
+            if(i == 6) document.getElementById('c6').src = "img/" + ("" + n) + ".png";
+            for (var x = 1; x < 10; x+=1) {
+                setTimeout(function () {
+                    if(i == 1) document.getElementById('c1').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 2) document.getElementById('c2').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 3) document.getElementById('c3').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 4) document.getElementById('c4').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 5) document.getElementById('c5').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                    if(i == 6) document.getElementById('c6').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 0." + (x + "") + ";";
+                }, x * 50);
+            }
+            setTimeout(function () {
+                if(i == 1) document.getElementById('c1').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 2) document.getElementById('c2').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 3) document.getElementById('c3').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 4) document.getElementById('c4').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 5) document.getElementById('c5').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+                if(i == 6) document.getElementById('c6').style = "transition-property: all; transition-timing-function: ease; transition-duration: 0.5s; opacity: 1.0" + ";";
+            }, 500);
+        }
+        function cins(i, n) {
             if(i == 1) document.getElementById('c1').src = "img/" + ("" + n) + ".png";
             if(i == 2) document.getElementById('c2').src = "img/" + ("" + n) + ".png";
             if(i == 3) document.getElementById('c3').src = "img/" + ("" + n) + ".png";
@@ -127,22 +161,31 @@
             }
         }
         function bigger (h,w) { //大屏显示由小变大特效
-            if(h == 603) return;
+            if(h >= 453) return;
             document.getElementById('big').height = h;
             document.getElementById('big').width = w;
             setTimeout(function () {
                 bigger(h + 6, w + 4);
             }, 2);
         }
-        function show (x) {//大屏幕显示函数
+        function show(x) {
+            if (x != 0) document.getElementById("c" + x.toString()).style = "transform:scaleX(1.1) scaleY(1.1); -webkit-transform:scaleX(1.1) scaleY(1.1); -moz-transform:scaleX(1.1) scaleY(1.1); animation-duration: .5s; animation-timing-function: ease;";
+            else {
+                document.getElementById("c1").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c2").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c3").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c4").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c5").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+                document.getElementById("c6").style = "transform:scaleX(1) scaleY(1); -webkit-transform:scaleX(1) scaleY(1); -moz-transform:scaleX(1) scaleY(1);";
+            }
             var tmp;
-            if(x == 0) tmp = "img/0.png";
-            if(x == 1) tmp = document.getElementById('c1').src;
-            if(x == 2) tmp = document.getElementById('c2').src;
-            if(x == 3) tmp = document.getElementById('c3').src;
-            if(x == 4) tmp = document.getElementById('c4').src;
-            if(x == 5) tmp = document.getElementById('c5').src;
-            if(x == 6) tmp = document.getElementById('c6').src;
+            if (x == 0) tmp = "img/0.png";
+            if (x == 1) tmp = document.getElementById('c1').src;
+            if (x == 2) tmp = document.getElementById('c2').src;
+            if (x == 3) tmp = document.getElementById('c3').src;
+            if (x == 4) tmp = document.getElementById('c4').src;
+            if (x == 5) tmp = document.getElementById('c5').src;
+            if (x == 6) tmp = document.getElementById('c6').src;
             document.getElementById('big').src = tmp;
             bigger(3, 2);
         }
@@ -194,13 +237,27 @@
         }
         function pop (pos) { //将第pos张卡牌从玩家手中移除
             if(pcard == 0 || pos > pcard) return;
-            for (var i = pos; i < pcard; i++) {
-                insert(i,pcd[i + 1]);
-                pcd[i] = pcd[i + 1];
-            }
-            pcard-=1;
-            pcd[pcard + 1] = 0;
-            insert(pcard + 1, 0);
+            if(pos == 1) document.getElementById('c1').className = "non";
+            if(pos == 2) document.getElementById('c2').className = "non";
+            if(pos == 3) document.getElementById('c3').className = "non";
+            if(pos == 4) document.getElementById('c4').className = "non";
+            if(pos == 5) document.getElementById('c5').className = "non";
+            if(pos == 6) document.getElementById('c6').className = "non";
+            setTimeout(function () {
+                if(pos == 1) document.getElementById('c1').className = "";
+                if(pos == 2) document.getElementById('c2').className = "";
+                if(pos == 3) document.getElementById('c3').className = "";
+                if(pos == 4) document.getElementById('c4').className = "";
+                if(pos == 5) document.getElementById('c5').className = "";
+                if(pos == 6) document.getElementById('c6').className = "";
+                for (var i = pos; i < pcard; i++) {
+                    cins(i,pcd[i + 1]);
+                    pcd[i] = pcd[i + 1];
+                }
+                pcard-=1;
+                pcd[pcard + 1] = 0;
+                cins(pcard + 1, 0);
+            }, 500);
         }
         function epop (pos) {
             if(ecard == 0 || pos > ecard) return;
