@@ -43,6 +43,8 @@
         <img class="sha" src="img/card-backn.png" height="280" width="180">
     </div>
     <button id="adra" style="display: none;">打我！</button>
+    <audio src="" autoplay loop id="bgm" style="display: none;"></audio>
+    <button id="sw" style="position: absolute; right: 10px; top: 10px; z-index: 555;">切换BGM播放状态</button>
     <script>
         var colors = ["aqua","red","green","black"];
         document.getElementById('bg').style = "background-color: " + colors[Math.floor(Math.random() * 5)] + ";";
@@ -66,8 +68,14 @@
         had[15] = 1;
         ehad[16] = 2;
         ehad[15] = 1;
+        var KKKsc03 = 0;
+        var listsing = ["bgm.mp3",""];
         document.getElementById('adra').onclick = function () {
             clicks+=1;
+        }
+        document.getElementById('sw').onclick = function () {
+            KKKsc03^=1;
+            document.getElementById('bgm').src = listsing[KKKsc03 ^ 1];
         }
         function inform() {
             window.location.href = "inform.html";
@@ -115,6 +123,9 @@
             if(i == 4) document.getElementById('c4').src = "img/" + ("" + n) + ".png";
             if(i == 5) document.getElementById('c5').src = "img/" + ("" + n) + ".png";
             if(i == 6) document.getElementById('c6').src = "img/" + ("" + n) + ".png";
+        }
+        function sxcard() {
+            for(var i = 1; i <= 6; i++) cins(i, pcd[i]);
         }
         function washin(x,num) { //将x张第num个牌洗入你的牌库
             had[num] -= x;
@@ -250,14 +261,13 @@
                 if(pos == 4) document.getElementById('c4').className = "";
                 if(pos == 5) document.getElementById('c5').className = "";
                 if(pos == 6) document.getElementById('c6').className = "";
-                for (var i = pos; i < pcard; i++) {
-                    cins(i,pcd[i + 1]);
-                    pcd[i] = pcd[i + 1];
-                }
-                pcard-=1;
-                pcd[pcard + 1] = 0;
-                cins(pcard + 1, 0);
-            }, 500);
+                sxcard();
+            }, 400);
+            for (var i = pos; i < pcard; i++) {
+                pcd[i] = pcd[i + 1];
+            }
+            pcard-=1;
+            pcd[pcard + 1] = 0;
         }
         function epop (pos) {
             if(ecard == 0 || pos > ecard) return;
@@ -360,8 +370,10 @@
                 return;
             }
             if(pcd[num] == 13 && pcard > 3) {
-                pop(num);
-                acticard(randcard());
+                setTimeout(function () {
+                    pop(num);
+                    acticard(randcard());
+                }, 600);
                 return;
             }
             if(pcd[num] == 14){
