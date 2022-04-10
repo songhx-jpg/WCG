@@ -585,12 +585,12 @@
                 document.getElementById('blarea').style = "color: red;";
                 kx = 2;
             }
-            document.getElementById('bl').innerHTML = pbl;
-            document.getElementById('obl').innerHTML = ebl;
             if(pbl <= 0 && ebl <= 0) {
                 pbl += 2;
                 ebl += 2;
             }
+            document.getElementById('bl').innerHTML = pbl;
+            document.getElementById('obl').innerHTML = ebl;
             if(pbl <= 0) {
                 alert("你输了");
                 document.getElementById('pictureb').style = "position: absolute; top: 0px; z-index: 99999;";
