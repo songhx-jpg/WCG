@@ -462,7 +462,7 @@
                 pop(num);
                 while(pcard < 6 && !mempty()){
                     pcard+=1;
-                    while(had[pcd[pcard]] == 2 && !ismonk(pcd[pcard])) {
+                    while(had[pcd[pcard]] == 2 || !ismonk(pcd[pcard])) {
                         pcd[pcard] = Math.floor(Math.random() * cards) + 1;
                     }
                     had[pcd[pcard]] += 1;//记录
