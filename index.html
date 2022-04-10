@@ -166,7 +166,7 @@
                 while(had[T] == 2) had[T] = randc();
                 had[T]+=1;
                 if(f == 1) {
-                    einc(ecard, T);
+                    ewashin(1,T);
                 }
             }
         }
@@ -176,7 +176,7 @@
                 while(ehad[T] == 2) T = randc();
                 ehad[T]+=1;
                 if(f == 1) {
-                    inc(pcard, T);
+                    washin(1, T);
                 }
             }
         }
@@ -311,6 +311,7 @@
             bsum += pb[pcd[num]];
             document.getElementById('a').innerHTML = asum;
             document.getElementById('b').innerHTML = bsum;
+            if(ismonk(pcd[num])) monk++;
             if(pcd[num] == 1){
                 pop(num);
                 if(Math.ceil(Math.random() * 10) == 2) {
@@ -361,7 +362,6 @@
                 var x = Math.max(asum, bsum);
                 asum = x;
                 bsum = x;
-                monk++;
                 document.getElementById('a').innerHTML = asum;
                 document.getElementById('b').innerHTML = bsum;
             }
@@ -370,7 +370,6 @@
             }
             if(pcd[num] == 9){
                 wm+=1;
-                monk++;
             }
             if(pcd[num] == 11){ //如果是博学者，那么将没有吃饱的刘仓置入手牌
                 pop(num);
@@ -389,7 +388,6 @@
                     pop(num);
                     acticard(randcard());
                 }, 600);
-                monk++;
                 return;
             }
             if(pcd[num] == 14){
@@ -453,15 +451,12 @@
                 }
                 document.getElementById('a').innerHTML = asum;
                 document.getElementById('b').innerHTML = bsum;
-                monk++;
             }
             if(pcd[num] == 21){
                 if(monk > 0) inc(21);
-                monk++;
             }
             if(pcd[num] == 22){
                 washin(2 * monk, 24);
-                monk++;
             }
             if(pcd[num] == 23){
                 pop(num);
@@ -474,9 +469,6 @@
                     insert(pcard, pcd[pcard]);
                 }
                 return;
-            }
-            if(pcd[num] == 24){
-                monk++;
             }
             pop(num);
         }
