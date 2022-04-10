@@ -9,7 +9,7 @@
 <body style="background-color: red;" id="bg">
     <div style="text-align: center; color: maroon;" id="tit">
         <p style="font-size: 48px">Winter Card-Game Version Alpha</p>
-        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button id="faststart">开始对战（快速模式）</button><button onclick="inform()">卡牌背景</button>
+        <button id="classic">经典版本</button>&nbsp;&nbsp;&nbsp;<button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button id="faststart">开始对战（快速模式）</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
     </div>
     <img src="img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
     <img src="img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
@@ -55,6 +55,7 @@
         var kx = 1;
         var monk = 0;
         var ebl = 50;
+        var cl = 0;
         var clicks,k;
         var wm = 0,ewm = 0;
         var diamonds = 1,amt = 1,emt = 1; //diamonds最大钻石数，amt目前钻石数
@@ -575,19 +576,28 @@
                 }
             }
             document.getElementById('skip').style = "";
-            if(easum > bsum){
-                pbl-=kx*(easum - bsum);
-            }
-            if(asum > ebsum){
-                ebl-=kx*(asum - ebsum);
+            if(cl == 1){
+                if(easum > bsum){
+                    pbl-=kx;
+                }
+                if(asum > ebsum){
+                    ebl-=kx;
+                }
+            } else {
+                if(easum > bsum){
+                    pbl-=kx*(easum - bsum);
+                }
+                if(asum > ebsum){
+                    ebl-=kx*(asum - ebsum);
+                }
             }
             if(diamonds == 10) {
                 document.getElementById('blarea').style = "color: red;";
                 kx = 2;
             }
             if(pbl <= 0 && ebl <= 0) {
-                pbl = 10;
-                ebl = 10;
+                pbl = 10 - cl * 9;
+                ebl = 10 - cl * 9;
             }
             document.getElementById('bl').innerHTML = pbl;
             document.getElementById('obl').innerHTML = ebl;
@@ -686,7 +696,12 @@
             pbl = 30;
             document.getElementById('start').onclick();
         }
-        
+        document.getElementById('classic').onclick = function () {
+            ebl = 10;
+            cl = 1;
+            pbl = 10;
+            document.getElementById('start').onclick();
+        }
     </script>
 </body>
 </html>
