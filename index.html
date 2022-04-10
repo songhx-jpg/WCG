@@ -9,7 +9,7 @@
 <body style="background-color: red;" id="bg">
     <div style="text-align: center; color: maroon;" id="tit">
         <p style="font-size: 48px">Winter Card-Game Version Alpha</p>
-        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
+        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button id="faststart">开始对战（快速模式）</button><button onclick="inform()">卡牌背景</button>
     </div>
     <img src="img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
     <img src="img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div style="position: absolute; right: 10px; bottom: 10px;">
-            <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span id="blarea"><span style="font-size: 48px;">你的血量：<span id="bl">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl"></span></span></span>
+            <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span id="blarea"><span style="font-size: 48px;">你的血量：<span id="bl"></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl"></span></span></span>
         </div>
         <img class="sha" src="img/card-backn.png" height="280" width="180">
     </div>
@@ -51,10 +51,10 @@
         var cardcost = [0,1,1,2,8,4,6,3,5,2,3,2,1,4,2,2,7,4,4,3,5,2,4,3,1];//卡牌消费
         var asum = 0,easum = 0;
         var bsum = 0,ebsum = 0;
-        var pbl = 10;
+        var pbl = 50;
         var kx = 1;
         var monk = 0;
-        var ebl = 10;
+        var ebl = 50;
         var clicks,k;
         var wm = 0,ewm = 0;
         var diamonds = 1,amt = 1,emt = 1; //diamonds最大钻石数，amt目前钻石数
@@ -435,9 +435,9 @@
                 clicks = 0;
                 setTimeout(function () {
                     var tot = 0
-                    if(clicks >= 8) tot+=1;
-                    if(clicks >= 20) tot+=1;
-                    if(clicks >= 42) tot+=1;
+                    if(clicks >= 8) tot+=2;
+                    if(clicks >= 20) tot+=2;
+                    if(clicks >= 32) tot+=1;
                     alert("获得了" + ("" + tot) + "点攻击力");
                     asum += tot;
                     document.getElementById('a').innerHTML = asum;
@@ -576,18 +576,18 @@
             }
             document.getElementById('skip').style = "";
             if(easum > bsum){
-                pbl-=kx;
+                pbl-=kx*(easum - bsum);
             }
             if(asum > ebsum){
-                ebl-=kx;
+                ebl-=kx*(asum - ebsum);
             }
             if(diamonds == 10) {
                 document.getElementById('blarea').style = "color: red;";
                 kx = 2;
             }
             if(pbl <= 0 && ebl <= 0) {
-                pbl += 2;
-                ebl += 2;
+                pbl = 10;
+                ebl = 10;
             }
             document.getElementById('bl').innerHTML = pbl;
             document.getElementById('obl').innerHTML = ebl;
@@ -613,6 +613,9 @@
             amt = diamonds - ewm;
             document.getElementById('d').innerHTML = amt;
             getcard();
+            setTimeout(function () {
+                if(diamonds > 15) getcard();
+            }, 250);
             asum = 0;
             wm = 0;
             monk = 0;
@@ -671,12 +674,19 @@
         document.getElementById('start').onclick = function () {
             document.getElementById('tit').style = "display:none;";
             document.getElementById('obl').innerHTML = ebl;
+            document.getElementById('bl').innerHTML = pbl;
             szt(-180);
         }
         document.getElementById('fstart').onclick = function () {
-            ebl = 18;
+            ebl = 80;
             document.getElementById('start').onclick();
         }
+        document.getElementById('faststart').onclick = function () {
+            ebl = 30;
+            pbl = 30;
+            document.getElementById('start').onclick();
+        }
+        
     </script>
 </body>
 </html>
