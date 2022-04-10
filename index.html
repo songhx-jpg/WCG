@@ -9,7 +9,7 @@
 <body style="background-color: red;" id="bg">
     <div style="text-align: center; color: maroon;" id="tit">
         <p style="font-size: 48px">Winter Card-Game Version Alpha</p>
-        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
+        <button id="start">开始对战</button>&nbsp;&nbsp;&nbsp;<button id="fstart">开始对战（魔鬼模式）</button>&nbsp;&nbsp;&nbsp;<button onclick="inform()">卡牌背景</button>
     </div>
     <img src="img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
     <img src="img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div style="position: absolute; right: 10px; bottom: 10px;">
-            <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span style="font-size: 48px;">你的血量：<span id="bl">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl">10</span></span>
+            <span style="font-size: 48px;">本回合对手的数值： +<span id="ea">0</span>+<span id="eb">0</span><br>本回合你的数值：+<span style="font-size: 48px;" id="a">0</span>+<span style="font-size: 48px;" id="b">0</span></span><br><span id="blarea"><span style="font-size: 48px;">你的血量：<span id="bl">10</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 对方的血量：<span id="obl"></span></span></span>
         </div>
         <img class="sha" src="img/card-backn.png" height="280" width="180">
     </div>
@@ -52,6 +52,7 @@
         var asum = 0,easum = 0;
         var bsum = 0,ebsum = 0;
         var pbl = 10;
+        var kx = 1;
         var ebl = 10;
         var clicks,k;
         var wm = 0,ewm = 0;
@@ -518,30 +519,40 @@
             epop(num);
         }
         function eusecard (num) {
-            emt -= cardcost[num];
+            emt -= cardcost[ecd[num]];
             eactivec(num);
             document.getElementById('ea').innerHTML = easum;
             document.getElementById('eb').innerHTML = ebsum;
         }
         document.getElementById('skip').onclick = function () { //跳过回合
+            document.getElementById('skip').style = "display: none;";
             emt = diamonds - wm;
             eget();
             for(var i = 1; i <= ecard; i+=1){
                 if(emt >= cardcost[ecd[i]]) {
-                    alert("对方使用了" + names[ecd[i]] + ",并获得+" + ("" + pa[ecd[i]]) + "+" + ("" + pb[ecd[i]]));
+                    alert("对方使用了" + names[ecd[i]] + ",并获得+" + ("" + pa[ecd[i]]) + "+" + ("" + pb[ecd[i]]) + ",对手还剩" + ("" + (emt - cardcost[ecd[i]])) + "颗钻石");
                     eusecard(i);
                     i -= 1;
                 }
             }
+            document.getElementById('skip').style = "";
             if(easum > bsum){
-                pbl-=1;
+                pbl-=kx;
             }
             if(asum > ebsum){
-                ebl-=1;
+                ebl-=kx;
+            }
+            if(diamonds == 10) {
+                document.getElementById('blarea').style = "color: red;";
+                kx = 2;
             }
             document.getElementById('bl').innerHTML = pbl;
             document.getElementById('obl').innerHTML = ebl;
-            if(pbl == 0) {
+            if(pbl <= 0 && ebl <= 0) {
+                pbl += 2;
+                ebl += 2;
+            }
+            if(pbl <= 0) {
                 alert("你输了");
                 document.getElementById('pictureb').style = "position: absolute; top: 0px; z-index: 99999;";
                 document.getElementById('pictureb').src = "img/lose.gif";
@@ -549,7 +560,7 @@
                     window.location.href = "index.html";
                 }, 5000);
             }
-            if(ebl == 0) {
+            if(ebl <= 0) {
                 alert("你赢了");
                 document.getElementById('pictureb').style = "position: absolute; top: 0px; z-index: 99999;";
                 document.getElementById('pictureb').src = "img/win.gif";
@@ -619,9 +630,13 @@
         }
         document.getElementById('start').onclick = function () {
             document.getElementById('tit').style = "display:none;";
+            document.getElementById('obl').innerHTML = ebl;
             szt(-180);
         }
-        
+        document.getElementById('fstart').onclick = function () {
+            ebl = 18;
+            document.getElementById('start').onclick();
+        }
     </script>
 </body>
 </html>
