@@ -445,7 +445,7 @@
                 }, 5000);
             }
             if(pcd[num] == 20){
-                for(var i = 0; i < monk; i++) {
+                for(var i = 1; i < monk; i++) {
                     asum += 3;
                     bsum += 3;
                 }
@@ -453,10 +453,10 @@
                 document.getElementById('b').innerHTML = bsum;
             }
             if(pcd[num] == 21){
-                if(monk > 0) inc(21);
+                if(monk > 1) inc(21);
             }
             if(pcd[num] == 22){
-                washin(2 * monk, 24);
+                washin(2 * monk - 2, 24);
             }
             if(pcd[num] == 23){
                 pop(num);
