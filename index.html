@@ -13,7 +13,7 @@
     </div>
     <button id="jc" style="position: absolute; right: 3px; bottom: 3px;">我是新手（教程）</button>
     <div style="position: absolute; left: 3px; bottom: 3px; color: blue;" id="zdyarea">
-        自定义牌组：<input type="text" id="zdy" size="40"><button id="sub" style="font-size: 14px;">提交</button>
+        自定义牌组：<input type="file" accept="text/plain"><button id="sub" style="font-size: 14px;">提交</button>
     </div>
     <img src="img/0.png" id="pictureb" height="100%" width="100%" style="position: absolute; top: 0px; z-index: 99999; display: none;">
     <img src="img/bruf.png" width="500" height="750" style="top: 250px; left: 50%;" id="pic">
@@ -79,10 +79,16 @@
         ehad[16] = 2;
         ehad[15] = 1;
         ehad[24] = 2;
+        var ffaggsagididasvcasvhj = 0;
         had[24] = 2;
         var cs = "0000000000000002000202222220";
+        var Str;
         function byzdy(str) {
             var qwq = 0;
+            if(str.length != cards) {
+                alert("长度不符");
+                return;
+            }
             if(str.length > cards){
                 alert("溢出！");
                 return;
@@ -113,11 +119,20 @@
             for(var i = 1; i <= cards; i++){
                 had[i] = str[i - 1] - '0';
             }
-            alert("提交成功！！");
+            if(ffaggsagididasvcasvhj != 0) alert("提交成功！！");
         }
         byzdy(cs);
+        ffaggsagididasvcasvhj = 1;
+        const input = document.querySelector('input[type=file]')
+        input.addEventListener('change', ()=>{
+            const reader = new FileReader();
+            reader.readAsText(input.files[0],'utf8'); // input.files[0]为第一个文件
+            reader.onload = ()=>{
+                Str = reader.result;  // reader.result为获取结果
+            }
+        }, false);
         document.getElementById('sub').onclick = function () {
-            byzdy(document.getElementById('zdy').value);
+            byzdy(Str);
         }
         var KKKsc03 = 0;
         var listsing = ["bgm.mp3",""];
