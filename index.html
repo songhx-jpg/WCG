@@ -85,10 +85,6 @@
         var Str;
         function byzdy(str) {
             var qwq = 0;
-            if(str.length != cards) {
-                alert("长度不符");
-                return;
-            }
             if(str.length > cards){
                 alert("溢出！");
                 return;
@@ -116,9 +112,10 @@
                 alert("该编码录入了" + ("" + qwq) + "张牌，牌库必须恰好40张！");
                 return;
             }
-            for(var i = 1; i <= cards; i++){
+            for(var i = 1; i <= str.length; i++){
                 had[i] = str[i - 1] - '0';
             }
+            for(var i = str.length + 1; i <= cards; i++) had[i] = 2;
             if(ffaggsagididasvcasvhj != 0) alert("提交成功！！");
         }
         byzdy(cs);
