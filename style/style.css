@@ -40,6 +40,10 @@ body{
     background-color: rgb(148,146,248);
     font-family: sansregular;
 }
+.rtec{
+    text-align: center;
+    font-size: 32px;
+}
 #c1:hover{
     transform:scale(1.1,1.1); -moz-transform:scale(1.1,1.1); -o-transform:scale(1.1,1.1); -webkit-transform:scale(1.1,1.1); -ms-transform:scale(1.1,1.1); 
 }
