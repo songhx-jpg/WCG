@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<input id="input" type="file" accept="text/plain">
+		<script>
+			const input = document.querySelector('input[type=file]')
+			input.addEventListener('change', ()=>{
+				const reader = new FileReader()
+				reader.readAsText(input.files[0],'utf8') // input.files[0]为第一个文件
+				reader.onload = ()=>{
+					document.body.innerHTML += reader.result  // reader.result为获取结果
+				}
+			}, false)
+		</script>
+	</body>
+</html>

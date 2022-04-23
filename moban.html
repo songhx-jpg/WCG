@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自定义卡牌生成器</title>
+		<style>
+			button{
+				color: white;
+				background-color: black;
+				box-shadow: 3px 3px 3px black;
+				font-size: 22px;
+			}
+		</style>
+	</head>
+	<body style="background-color: aqua;">
+		<button id="back">返回</button>
+		<div style="text-align: center; font-size: 32px;">
+			<img id="p1" height="220" width="140" onclick="plas(1)"><span id="a1"> x <span id="s1">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p2" height="220" width="140" onclick="plas(2)"><span id="a2"> x <span id="s2">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p3" height="220" width="140" onclick="plas(3)"><span id="a3"> x <span id="s3">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p4" height="220" width="140" onclick="plas(4)"><span id="a4"> x <span id="s4">0</span></span>
+			<br>
+			<img id="p5" height="220" width="140" onclick="plas(5)"><span id="a5"> x <span id="s5">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p6" height="220" width="140" onclick="plas(6)"><span id="a6"> x <span id="s6">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p7" height="220" width="140" onclick="plas(7)"><span id="a7"> x <span id="s7">0</span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+			<img id="p8" height="220" width="140" onclick="plas(8)"><span id="a8"> x <span id="s8">0</span></span>
+			<br>
+			<button id="sc">生成</button>&nbsp;&nbsp;&nbsp;<button id="las">上一页</button>&nbsp;&nbsp;&nbsp;
+			第<span id="p">1</span>页&nbsp;&nbsp;&nbsp;
+			<button id="nex">下一页</button>&nbsp;&nbsp;&nbsp;<button id="qk">清空已有的牌组</button><br>
+			<span id="sch"></span><br>
+			现有卡牌：<span id="num">0</span>张/40张
+		</div>
+		<script>
+			var page = 1,cardtemp = 35,sum = 0,cards = 33;
+			var temp = [2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+			function upper(x) {
+				if(x > cards) return 0;
+				if(x >= 16) x++;
+				if(x >= 24) x++;
+				return x;
+			}
+			function cupper(x) {
+				if(x > cards) return 0;
+				return x;
+			}
+			document.getElementById('back').onclick = function () {
+				window.location.href = "index.html";
+			}
+			function plas(x) {
+				if(sum >= 40) {
+					alert("牌组已满！");
+					return;
+				}
+				temp[upper((page - 1) * 8 + x)]--;
+				sum++;
+				if(temp[upper((page - 1) * 8 + x)] < 0) {
+					temp[upper((page - 1) * 8 + x)] = 2;
+					sum -= 3;
+				}
+				ret();
+			}
+			function ret() {
+				document.getElementById('p1').src = "img/" + ("" + upper((page - 1) * 8 + 1)) + ".png";
+				if(upper((page - 1) * 8 + 1) == 0) document.getElementById('a1').style = "display: none;";
+				else document.getElementById('a1').style = "";
+				if(upper((page - 1) * 8 + 2) == 0) document.getElementById('a2').style = "display: none;";
+				else document.getElementById('a2').style = "";
+				if(upper((page - 1) * 8 + 3) == 0) document.getElementById('a3').style = "display: none;";
+				else document.getElementById('a3').style = "";
+				if(upper((page - 1) * 8 + 4) == 0) document.getElementById('a4').style = "display: none;";
+				else document.getElementById('a4').style = "";
+				if(upper((page - 1) * 8 + 5) == 0) document.getElementById('a5').style = "display: none;";
+				else document.getElementById('a5').style = "";
+				if(upper((page - 1) * 8 + 6) == 0) document.getElementById('a6').style = "display: none;";
+				else document.getElementById('a6').style = "";
+				if(upper((page - 1) * 8 + 7) == 0) document.getElementById('a7').style = "display: none;";
+				else document.getElementById('a7').style = "";
+				if(upper((page - 1) * 8 + 8) == 0) document.getElementById('a8').style = "display: none;";
+				else document.getElementById('a8').style = "";
+				document.getElementById('p2').src = "img/" + ("" + upper((page - 1) * 8 + 2)) + ".png";
+				document.getElementById('p3').src = "img/" + ("" + upper((page - 1) * 8 + 3)) + ".png";
+				document.getElementById('p4').src = "img/" + ("" + upper((page - 1) * 8 + 4)) + ".png";
+				document.getElementById('p5').src = "img/" + ("" + upper((page - 1) * 8 + 5)) + ".png";
+				document.getElementById('p6').src = "img/" + ("" + upper((page - 1) * 8 + 6)) + ".png";
+				document.getElementById('p7').src = "img/" + ("" + upper((page - 1) * 8 + 7)) + ".png";
+				document.getElementById('p8').src = "img/" + ("" + upper((page - 1) * 8 + 8)) + ".png";
+				document.getElementById('s1').innerHTML = 2 - temp[upper((page - 1) * 8 + 1)];
+				document.getElementById('s2').innerHTML = 2 - temp[upper((page - 1) * 8 + 2)];
+				document.getElementById('s3').innerHTML = 2 - temp[upper((page - 1) * 8 + 3)];
+				document.getElementById('s4').innerHTML = 2 - temp[upper((page - 1) * 8 + 4)];
+				document.getElementById('s5').innerHTML = 2 - temp[upper((page - 1) * 8 + 5)];
+				document.getElementById('s6').innerHTML = 2 - temp[upper((page - 1) * 8 + 6)];
+				document.getElementById('s7').innerHTML = 2 - temp[upper((page - 1) * 8 + 7)];
+				document.getElementById('s8').innerHTML = 2 - temp[upper((page - 1) * 8 + 8)];
+				document.getElementById('p').innerHTML = page;
+				document.getElementById('num').innerHTML = sum;
+			}
+			function b() {
+				if(cards % 8 == 0) return cards / 8 - 1;
+				return cards / 8;
+			}
+			document.getElementById('nex').onclick = function () {
+				if(page > b()) return;
+				page++;
+				ret();
+			}
+			  document.getElementById('las').onclick = function () {
+				if(page == 1) return;
+				page--;
+				ret();
+			}
+			document.getElementById('qk').onclick = function () {
+				for(var i = 1; i <= cardtemp; i++){
+					temp[i] = 2;
+				}
+				sum = 0;
+				ret();
+			}
+			document.getElementById('qk').onclick();
+			document.getElementById('sc').onclick = function () {
+				if(sum < 40) {
+					alert("请将牌组填充至40张");
+					return;
+				}
+				var str = "";
+				for (var i = 1; i <= cardtemp; i++) {
+					str += ("" + temp[i]);
+				}
+				document.getElementById('sch').innerHTML = "生成后的ID：" + str;
+			}
+		</script>
+	</body>
+</html>
